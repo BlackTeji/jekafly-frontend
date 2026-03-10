@@ -1,3 +1,4 @@
+
 function updateNav() {
     const user = Auth.getCurrent();
     const ctaEl = document.querySelector('.nav-cta');
