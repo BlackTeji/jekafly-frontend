@@ -881,7 +881,7 @@
         }
 
         // ── REVIEW & FEE BREAKDOWN ───────────────────────────────────
-        async function buildReview() {
+       async function buildReview() {
             const dest = val('a-destination'), fname = val('a-fname'), lname = val('a-lname'),
                 email = val('a-email'), phone = val('a-phone'), passport = val('a-passport'),
                 dob = val('a-dob'), purpose = val('a-purpose'), travelDate = val('a-travel-date'),
@@ -944,7 +944,7 @@
 
             // Store fee breakdown in sessionStorage for payment.html
             window._computedTotal = total;
-            sessionStorage.setItem('jkf_pending_payment', JSON.stringify({ _feeBreakdown: { visaFee, extraTravellers, extraFee, subtotal, serviceFee, total } }));
+            localStorage.setItem('jkf_pending_payment', JSON.stringify({ _feeBreakdown: { visaFee, extraTravellers, extraFee, subtotal, serviceFee, total } }));
         }
 
         function copyDraftRef() {
@@ -1010,8 +1010,8 @@
                 const result = await AppStore.create(appData);
                 if (result?.ref) {
                     const total = window._computedTotal || (feeMap[appData.destination] || 120000) + JEKAFLY_SERVICE_FEE;
-                    const pending = JSON.parse(sessionStorage.getItem('jkf_pending_payment') || '{}');
-                    sessionStorage.setItem('jkf_pending_payment', JSON.stringify({
+                    const pending = JSON.parse(localStorage.getItem('jkf_pending_payment') || '{}');
+                    localStorage.setItem('jkf_pending_payment', JSON.stringify({
                         type: 'visa', ref: result.ref, destination: appData.destination,
                         amount: total, email: appData.email, ...pending,
                     }));

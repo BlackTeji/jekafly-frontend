@@ -179,7 +179,7 @@
     <a href="dashboard.html" class="btn-outline btn-outline-link">Dashboard</a>`;
 
             // Load pending payment
-            try { pendingPayment = JSON.parse(sessionStorage.getItem('jkf_pending_payment')); } catch { }
+            try { pendingPayment = JSON.parse(localStorage.getItem('jkf_pending_payment')); } catch { }
 
             if (!pendingPayment) {
                 document.querySelector('.pay-page').innerHTML = '<div class="pay-empty"><div class="pay-empty-icon">😕</div><h2 class="pay-empty-title">No pending payment found</h2><p class="pay-empty-sub">Start a new application to proceed to payment.</p><button class="btn-next" onclick="window.location.href=\'apply.html\'">Start Application</button></div>';
@@ -315,7 +315,7 @@
 
                 if (res?.ok && res.data?.authorizationUrl) {
                     // Redirect to Paystack payment page
-                    sessionStorage.removeItem('jkf_pending_payment');
+                    localStorage.removeItem('jkf_pending_payment');
                     window.location.href = res.data.authorizationUrl;
                 } else {
                     throw new Error(res?.error || 'Payment initiation failed.');
