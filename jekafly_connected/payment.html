@@ -159,8 +159,8 @@
         </div>
     </div>
 
-    <script src="api.js"></script>
-    <script src="app.js"></script>
+    <script src="api.js?v=4"></script>
+    <script src="app.js?v=4"></script>
     <script>
         let pendingPayment = null;
         let payMethod = 'card';
@@ -180,6 +180,14 @@
 
             // Load pending payment
             try { pendingPayment = JSON.parse(localStorage.getItem('jkf_pending_payment')); } catch { }
+
+            // If returning from Paystack redirect, verify immediately — don't require pendingPayment
+            const urlParams = new URLSearchParams(window.location.search);
+            const returnRef = urlParams.get('ref') || urlParams.get('reference') || urlParams.get('trxref');
+            if (returnRef) {
+                checkPaystackReturn();
+                return;
+            }
 
             if (!pendingPayment) {
                 document.querySelector('.pay-page').innerHTML = '<div class="pay-empty"><div class="pay-empty-icon">😕</div><h2 class="pay-empty-title">No pending payment found</h2><p class="pay-empty-sub">Start a new application to proceed to payment.</p><button class="btn-next" onclick="window.location.href=\'apply.html\'">Start Application</button></div>';
